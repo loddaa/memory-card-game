@@ -1,0 +1,121 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+/* Variables */
+* {
+   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   --bg-light: #CBE4DE;
+   --bg-dark: #2C3333;
+   --text-light: #CBE4DE;
+   --text-dark: #2C3333;
+   --accent-color: #0E8388;
+}
+
+html, body {
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a,
+button {
+    cursor: pointer;
+}
+
+.light-theme {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.dark-theme {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+body.light-theme header,
+body.light-theme footer {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+body.dark-theme header,
+body.dark-theme footer {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+nav,
+footer {
+    padding: 10px 5%;
+}
+
+main {
+    flex: auto;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.toggle-theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.toggle-theme button {
+    display: block;
+    border: none;
+    text-align: center;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1rem;
+    border-radius: 50%; 
+}
+
+body.light-theme .toggle-light {
+    background-color: var(--bg-dark);
+    color: white;
+}
+
+body.dark-theme .toggle-dark {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.display-none {
+    display: none !important;
+}
