@@ -5,7 +5,7 @@
         <!-- Font awesome -->
         <link rel="stylesheet" href="./public/assets/fontawesome-free-6.5.1-web/css/all.css">
         <link rel="stylesheet" href="./public/css/main.css">
-        <script type="module" src="./public/js/main.js" defer></script>
+        <script type="text/javascript" src="./public/js/main.js" defer></script>
         <title>Warriors | Memory game</title>
     </head>
 
@@ -15,11 +15,12 @@
                 <div class="logo left-side">
                     <a href="#">Warriors | Memory Game</a>
                 </div>
+                <!--  -->
                 <div class="right-side">
-                    <div class="user-info">
-
+                    <div id="scoreboard">
+                       
                     </div>
-
+                    <!-- Dark mode -->
                     <div class="toggle-theme">
                         <button class="toggle-light">
                             <i class="fa-solid fa-moon"></i>
@@ -32,10 +33,21 @@
                 </div>
             </nav>
         </header>
-
+        <!--  -->
         <main>
-
+            <section class="login">
+                <h1>Let's play</h1>
+                <div>
+                    <p>Choose a username:</p>
+                    <div>
+                        <input type="text" id='username-input' name="username" placeholder="Username">
+                        <input type="button" id='login' value="Start" id="start-game">
+                    </div>
+                </div>
+            </section>
         </main>
+
+       
 
         <footer>
             <div>

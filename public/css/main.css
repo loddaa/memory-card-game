@@ -11,11 +11,14 @@ html {
 /* Variables */
 * {
    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-   --bg-light: #CBE4DE;
-   --bg-dark: #2C3333;
-   --text-light: #CBE4DE;
-   --text-dark: #2C3333;
-   --accent-color: #0E8388;
+   --bg-light: rgb(255 255 255);
+   --bg-dark: rgb(17 24 39);
+   --text-light: rgb(229 231 235);
+   --text-dark: rgb(31 41 55);
+   --accent-color: rgb(15 118 110);
+
+   --px-section: 5%;
+   --py-section: 50px;
 }
 
 html, body {
@@ -46,14 +49,14 @@ button {
 
 body.light-theme header,
 body.light-theme footer {
-    background-color: var(--bg-dark);
-    color: var(--text-light);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
 }
 
 body.dark-theme header,
 body.dark-theme footer {
-    background-color: var(--bg-light);
-    color: var(--text-dark);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
 }
 
 nav,
@@ -79,6 +82,12 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
+}
+
+.right-side {
+    display: flex;
+    align-items: center;
     gap: 20px;
 }
 
@@ -110,6 +119,18 @@ body.dark-theme .toggle-dark {
     color: var(--text-dark);
 }
 
+body.light-theme main {
+    background-image: url('../assets/img/bg-warriorw.png'), linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.5));
+    background-blend-mode: overlay;
+    background-size: cover;
+}
+
+body.dark-theme main {
+    background-image: url('../assets/img/bg-warriorw.png'), linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.5));
+    background-blend-mode: overlay;
+    background-size: cover;
+}
+
 footer {
     display: flex;
     align-items: center;
@@ -118,4 +139,30 @@ footer {
 
 .display-none {
     display: none !important;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+
+#scoreboard {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.card-container {
+    display: block;
+    flex-basis: 20%;
+}
+.card {
+    width: 200px;
+    margin: 0 auto;
 }
