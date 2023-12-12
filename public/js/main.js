@@ -104,39 +104,59 @@ function setUser() {
 
 
 function generateCards() {
+    shuffleCard()
     cards.forEach((element) => {
         const cardElement = document.createElement("div");
         cardElement.classList.add("card-container");
         cardElement.setAttribute("data-name", element.name);
         cardElement.innerHTML = `
-            <img class="card back" src='public/assets/img/Warriors/facedown.png' />
-            <img class="card front display-none" src=${element.img} />
+        <img class="card card-back" src='public/assets/img/Warriors/facedown.png' />
+        <img class="card card-front display-none" src=${element.img} />
         `;
         mainSection.appendChild(cardElement)
         cardElement.addEventListener('click', flipCard)
     })
 }
 
+function shuffleCard() {
+    let tmp = []
+    let length = cards.length
+    for (let i = 0; i < length; i++) {
+        let randomIndex = Math.floor(Math.random() * cards.length)
+        tmp.push(cards[randomIndex])
+        cards.splice(randomIndex, 1)
+    }
+    cards = tmp
+    console.log(cards)
+
+}
+
 function flipCard() {
     if (lockBoard == true) {
         return
     }
+    
+    this.classList.add('flipped')
+   
 
     if (!firstCard) {
         firstCard = this;
-        firstCard.firstElementChild.classList.add('display-none')
-        firstCard.children[1].classList.remove('display-none')
+            firstCard.children[0].classList.toggle('display-none')
+            firstCard.children[1].classList.toggle('display-none')
+
         return
     }
     secondCard = this
-    secondCard.firstElementChild.classList.add('display-none')
-    secondCard.children[1].classList.remove('display-none')
+        secondCard.children[0].classList.toggle('display-none')
+        secondCard.children[1].classList.toggle('display-none')
+
+    
     lockBoard = true
     matchCards()
 }
 
 function matchCards() {
-    isMatch = firstCard.getAttribute('data-name') == secondCard.getAttribute('data-name')
+    let isMatch = firstCard.getAttribute('data-name') == secondCard.getAttribute('data-name')
     
     if (isMatch) {
         disableCards()
@@ -147,23 +167,24 @@ function matchCards() {
 
 function disableCards() {
     firstCard.removeEventListener("click", flipCard);
-    firstCard.style.opacity = '50%'
     secondCard.removeEventListener("click", flipCard);
-    secondCard.style.opacity = '50%'
+    firstCard.classList.add('diseabled')
+    secondCard.classList.add('diseabled')
   
     resetBoard();
   }
   
   function unflipCards() {
     setTimeout(() => {
-      firstCard.firstElementChild.classList.remove('display-none')
-      firstCard.children[1].classList.add('display-none')
-      secondCard.firstElementChild.classList.remove('display-none')
-      secondCard.children[1].classList.add('display-none')
+        firstCard.classList.remove("flipped");
+        secondCard.classList.remove("flipped");
+        secondCard.children[0].classList.toggle('display-none')
+        firstCard.children[0].classList.toggle('display-none')
+        secondCard.children[1].classList.toggle('display-none')
+        firstCard.children[1].classList.toggle('display-none')
       resetBoard();
     }, 1000);
   }
-
   function resetBoard() {
     firstCard = null;
     secondCard = null;

@@ -159,10 +159,21 @@ main {
 }
 
 .card-container {
-    display: block;
     flex-basis: 20%;
+    transition: 1s;
+    position: relative;
+    display: flex;
+    justify-content: center;
 }
+
+.card-container.flipped {
+    transform: rotateY(0.5turn);
+}
+
 .card {
     width: 200px;
-    margin: 0 auto;
+}
+
+.diseabled {
+    opacity: 50%;
 }
