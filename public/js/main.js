@@ -1,195 +1,142 @@
-// Dark mode
-let lightToggle = document.getElementsByClassName('toggle-light').item(0)
-let darkToggle = document.getElementsByClassName('toggle-dark').item(0)
-
-function darkTheme() {
-    document.body.className = 'dark-theme';
-    darkToggle.classList.remove('display-none')
-    lightToggle.classList.add('display-none')
-    localStorage.setItem('theme', 'dark')
-}
-
-function lightTheme() {
-    document.body.className = 'light-theme';
-    darkToggle.classList.add('display-none')
-    lightToggle.classList.remove('display-none')
-    localStorage.setItem('theme', 'light')
-}
-
-document.addEventListener('click', function(e) {
-    switch (e.target) {
-        case lightToggle:
-        case lightToggle.firstElementChild:
-            darkTheme()
-            break;
-        case darkToggle:
-        case darkToggle.firstElementChild:
-            lightTheme()
-            break;
-    }
-})
-
-document.addEventListener('DOMContentLoaded', function() {
-    localStorage.getItem('theme') == "light" ? lightTheme() : darkTheme()
-})
-
-//
-let mainSection = document.getElementsByTagName('main').item(0)
-let loginButton = document.getElementById('login')
-let usernameInput = document.getElementById('username-input')
-let user = {
-    name: ''
-}
 let cards = [
-    {
-     img: 'public/assets/img/Warriors/1.png',
-     name: 'knight'
-    },
-    {
-     img: 'public/assets/img/Warriors/2.png',
-     name: 'viking'
-    },
-    {
-     img: 'public/assets/img/Warriors/3.png',
-     name: 'knight-sword'
-    },
-    {
-     img: 'public/assets/img/Warriors/4.png',
-     name: 'knight-fire'
-    },
-    {
-     img: 'public/assets/img/Warriors/1.png',
-     name: 'knight'
-    },
-    {
-     img: 'public/assets/img/Warriors/2.png',
-     name: 'viking'
-    },
-    {
-     img: 'public/assets/img/Warriors/3.png',
-     name: 'knight-sword'
-    },
-    {
-     img: 'public/assets/img/Warriors/4.png',
-     name: 'knight-fire'
-    }
- ]
+    {src: 'public/assets/img/Warriors/1.png'},
+    {src: 'public/assets/img/Warriors/2.png'},
+    {src: 'public/assets/img/Warriors/3.png'},
+    {src: 'public/assets/img/Warriors/4.png'},
+]
+cards = cards.concat(cards)
+
+let backCard = {
+    src: 'public/assets/img/Warriors/facedown.png'
+}
+
 let firstCard;
 let secondCard;
-let lockBoard = false;
+let lockBoard = false
+let counter = 0
 
-
-loginButton.addEventListener('click', function() {
-    if (usernameInput.value != '') {
-        user.name = usernameInput.value
-        
-        mainSection.innerHTML = ''
-        
-        setUser(user)
-        generateCards()
-    }
-})
-
-function setUser() {
-    let scoreboard = document.getElementById('scoreboard')
-    scoreboard.innerHTML = `
-    <div>
-    ${user.name} 
-    </div>
-    <div id="timer">
-    
-    </div>
-    `
-}
-
-
-function generateCards() {
-    shuffleCard()
-    cards.forEach((element) => {
-        const cardElement = document.createElement("div");
-        cardElement.classList.add("card-container");
-        cardElement.setAttribute("data-name", element.name);
-        cardElement.innerHTML = `
-        <img class="card card-back" src='public/assets/img/Warriors/facedown.png' />
-        <img class="card card-front display-none" src=${element.img} />
-        `;
-        mainSection.appendChild(cardElement)
-        cardElement.addEventListener('click', flipCard)
-    })
-}
-
-function shuffleCard() {
-    let tmp = []
+function shuffle() {
     let length = cards.length
+    let tmpArray = []
     for (let i = 0; i < length; i++) {
-        let randomIndex = Math.floor(Math.random() * cards.length)
-        tmp.push(cards[randomIndex])
-        cards.splice(randomIndex, 1)
+        let random = Math.floor(Math.random() * cards.length)
+        tmpArray.push(cards[random])
+        cards.splice(random, 1)
     }
-    cards = tmp
-    console.log(cards)
+    cards = tmpArray
+}
 
+shuffle()
+generateCards()
+function generateCards() {
+    let container = document.createElement('div')
+    container.classList.add('container')
+    
+    cards.forEach((element) => {
+        // Card container
+        let cardDivContainer = document.createElement('div')
+        cardDivContainer.classList.add('card-container')
+        // Back
+        let divBack = document.createElement('div')
+        divBack.classList.add('back-card')
+        let imgBack = document.createElement('img')
+        imgBack.src = backCard.src
+        divBack.appendChild(imgBack)
+        // Front
+        let divFront = document.createElement('div')
+        divFront.classList.add('front-card')
+        let imgFront = document.createElement('img')
+        imgFront.src = element.src
+        // Append
+        divFront.appendChild(imgFront)
+        cardDivContainer.append(divFront, divBack)
+        container.appendChild(cardDivContainer)
+    })
+    document.body.appendChild(container)
+    
+    let backCardClasses = document.getElementsByClassName('back-card')
+    
+    Array.from(backCardClasses).forEach((element) => {
+    
+        element.addEventListener('click', flipCard)
+    })
 }
 
 function flipCard() {
     if (lockBoard == true) {
         return
-    }
-    
+    } 
+
     this.classList.add('flipped')
-   
+    this.style.opacity = '0%'
+    this.previousElementSibling.classList.add('flipped')
 
     if (!firstCard) {
-        firstCard = this;
-            firstCard.children[0].classList.toggle('display-none')
-            firstCard.children[1].classList.toggle('display-none')
-
+        firstCard = this
         return
     }
-    secondCard = this
-        secondCard.children[0].classList.toggle('display-none')
-        secondCard.children[1].classList.toggle('display-none')
-
     
+
+    secondCard = this
     lockBoard = true
     matchCards()
 }
 
 function matchCards() {
-    let isMatch = firstCard.getAttribute('data-name') == secondCard.getAttribute('data-name')
-    
-    if (isMatch) {
-        disableCards()
-    } else {
-        unflipCards();
-    } 
+    let isMatch = firstCard.previousElementSibling.innerHTML == secondCard.previousElementSibling.innerHTML
+    console.log({isMatch})
+    isMatch == true ? disableCards() : unflipCards()
 }
 
 function disableCards() {
     firstCard.removeEventListener("click", flipCard);
     secondCard.removeEventListener("click", flipCard);
-    firstCard.classList.add('diseabled')
-    secondCard.classList.add('diseabled')
-  
-    resetBoard();
-  }
-  
-  function unflipCards() {
+    firstCard.style.opacity = "0%"
+    firstCard.previousElementSibling.style.opacity = "50%"
+    secondCard.style.opacity = "0%"
+    secondCard.previousElementSibling.style.opacity = "50%"
+    
+    firstCard = null
+    secondCard = null
+    lockBoard = false
+    
+    counter++
+    if (counter == cards.length / 2) {
+        displayResult()
+    }
+}
+
+function unflipCards() {
     setTimeout(() => {
-        firstCard.classList.remove("flipped");
-        secondCard.classList.remove("flipped");
-        secondCard.children[0].classList.toggle('display-none')
-        firstCard.children[0].classList.toggle('display-none')
-        secondCard.children[1].classList.toggle('display-none')
-        firstCard.children[1].classList.toggle('display-none')
-      resetBoard();
+        firstCard.classList.remove('flipped')
+        firstCard.previousElementSibling.classList.remove('flipped')
+        firstCard.style.opacity = '100%'
+
+        secondCard.classList.remove('flipped')
+        secondCard.style.opacity = '100%'
+        secondCard.previousElementSibling.classList.remove('flipped')
+
+        firstCard = null
+        secondCard = null
+        lockBoard = false
     }, 1000);
-  }
-  function resetBoard() {
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
-  }
+}
+
+function displayResult() {
+    let div = document.createElement('div')
+    div.classList.add('result')
+    let p = document.createElement('p')
+    p.innerText = 'You won' 
+    div.appendChild(p)
+    document.body.insertAdjacentHTML('afterbegin', div.outerHTML)
+    setTimeout(() => {
+        window.location.reload()
+    }, 5000);
+}
+
+
+
+
   
   
 
