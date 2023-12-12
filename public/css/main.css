@@ -65,7 +65,7 @@ img {
     margin: auto auto;
 }
 
-.stat {
+.nav {
     position: fixed;
     bottom: 0px;
     width: 100%;
@@ -76,6 +76,21 @@ img {
     padding: 30px;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 20px;
+
+    text-align: center;
+}
+
+.set-username {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.username {
+
 }

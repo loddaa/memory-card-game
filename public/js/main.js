@@ -14,6 +14,56 @@ let firstCard;
 let secondCard;
 let lockBoard = false
 let counter = 0
+let nav = document.getElementsByClassName('nav').item(0)
+
+function game() {
+    let div = document.createElement('div')
+    div.classList.add('set-username')
+    let input = document.createElement('input')
+    let p = document.createElement('p')
+    p.innerText = 'Add your username'
+    input.setAttribute('placeholder', 'Username')
+    div.append(p, input)
+    nav.appendChild(div)
+    input.addEventListener('keypress', function(e) {
+        if (e.key == 'Enter' && input.value != '') {
+            div.remove()
+            addUsername(input.value)
+            setTimer()
+            shuffle()
+            generateCards()
+        }
+        
+    })
+}
+
+function addUsername(inputValue) {
+    let div = document.createElement('div')
+    div.classList.add('username')
+    let p = document.createElement('p')
+    p.innerHTML = `<i class="fa-regular fa-user"></i> ` + inputValue
+    div.appendChild(p)
+    nav.appendChild(div)
+}
+
+function setTimer() {
+    let divUser = document.getElementsByClassName('username').item(0)
+    let p = document.createElement('p')
+    p.innerHTML = '<i class="fa-regular fa-clock"></i> '
+    let span = document.createElement('span')
+    divUser.appendChild(p)
+    p.appendChild(span)
+    let sec = 1
+    let min = 0
+    setInterval(() => {
+        if (sec > 59) {
+            min++
+            sec = 0
+        }
+        span.innerText = `${min}:${sec} sec`
+        sec++
+    }, 1000);
+}
 
 function shuffle() {
     let length = cards.length
@@ -26,8 +76,6 @@ function shuffle() {
     cards = tmpArray
 }
 
-shuffle()
-generateCards()
 function generateCards() {
     let container = document.createElement('div')
     container.classList.add('container')
@@ -133,6 +181,9 @@ function displayResult() {
         window.location.reload()
     }, 5000);
 }
+
+game()
+
 
 
 
