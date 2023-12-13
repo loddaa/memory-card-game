@@ -1,15 +1,7 @@
-let cards = [
-    {src: 'public/assets/img/Warriors/1.png'},
-    {src: 'public/assets/img/Warriors/2.png'},
-    {src: 'public/assets/img/Warriors/3.png'},
-    {src: 'public/assets/img/Warriors/4.png'},
-]
-cards = cards.concat(cards)
-
 let backCard = {
     src: 'public/assets/img/Warriors/facedown.png'
 }
-
+let cards = []
 let firstCard;
 let secondCard;
 let lockBoard = false
@@ -19,6 +11,9 @@ let gameIsFinished = false
 let nav = document.getElementsByClassName('nav').item(0)
 
 function game() {
+    chooseLevel()
+    
+    let levelContainer = document.getElementsByClassName('level-container').item(0)
     let div = document.createElement('div')
     div.classList.add('set-username')
     let input = document.createElement('input')
@@ -27,9 +22,11 @@ function game() {
     input.setAttribute('placeholder', 'Username')
     div.append(p, input)
     nav.appendChild(div)
+
     input.addEventListener('keypress', function(e) {
         if (e.key == 'Enter' && input.value != '') {
             div.remove()
+            levelContainer.remove()
             addUsername(input.value)
             setTimer()
             shuffle()
@@ -37,6 +34,78 @@ function game() {
         }
         
     })
+}
+
+function chooseLevel() {
+    let divLevelContainer = document.createElement('div')
+    divLevelContainer.classList.add('level-container')
+
+    let buttonEasy = document.createElement('button')
+    buttonEasy.classList.add('level')
+    buttonEasy.setAttribute('id', 'easy')
+    buttonEasy.innerText = 'Easy'
+
+    let buttonNormal = document.createElement('button')
+    buttonNormal.classList.add('level')
+    buttonNormal.setAttribute('id', 'normal')
+    buttonNormal.innerText = 'Normal'
+
+    let buttonHard = document.createElement('button')
+    buttonHard.classList.add('level')
+    buttonHard.setAttribute('id', 'hard')
+    buttonHard.innerText = 'Hard'
+
+    divLevelContainer.append(buttonEasy, buttonNormal, buttonHard)
+    document.body.insertAdjacentHTML('afterbegin', divLevelContainer.outerHTML)
+
+    let levelButtons = document.getElementsByClassName('level')
+
+    for (let levelButton of levelButtons) {
+        levelButton.addEventListener('click', function() {
+            // remove class active from all buttons in case user click on more than one button
+            for (let button of levelButtons) {
+                button.classList.remove('active')
+            }
+            switch (levelButton.getAttribute('id')) {
+                case 'easy':
+                    document.body.className = 'easy'
+                    levelButton.classList.add('active')
+                    cards = [
+                        {src: 'public/assets/img/Warriors/1.png'},
+                        {src: 'public/assets/img/Warriors/2.png'},
+                        {src: 'public/assets/img/Warriors/3.png'},
+                    ]
+                    cards = cards.concat(cards)
+                    break;
+                case 'normal':
+                    document.body.className = 'normal'
+                    levelButton.classList.add('active')
+                    cards = [
+                        {src: 'public/assets/img/Warriors/1.png'},
+                        {src: 'public/assets/img/Warriors/2.png'},
+                        {src: 'public/assets/img/Warriors/3.png'},
+                        {src: 'public/assets/img/Warriors/4.png'},
+                    ]
+                    cards = cards.concat(cards)
+                    break;
+                case 'hard':
+                    document.body.className = 'hard'
+                    levelButton.classList.add('active')
+                    cards = [
+                        {src: 'public/assets/img/Warriors/1.png'},
+                        {src: 'public/assets/img/Warriors/2.png'},
+                        {src: 'public/assets/img/Warriors/3.png'},
+                        {src: 'public/assets/img/Warriors/4.png'},
+                        {src: 'public/assets/img/Warriors/5.png'},
+                        {src: 'public/assets/img/Warriors/6.png'},
+                        {src: 'public/assets/img/Warriors/7.png'},
+                        {src: 'public/assets/img/Warriors/8.png'},
+                    ]
+                    cards = cards.concat(cards)
+                    break;
+            }
+        })
+    }
 }
 
 function addUsername(inputValue) {
