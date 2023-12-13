@@ -24,9 +24,10 @@ function game() {
     levelContainer.appendChild(div)
 
     input.addEventListener('keypress', function(e) {
-        if (e.key == 'Enter' && input.value != '') {
+        if (e.key == 'Enter' && input.value != '' && (document.body.className == 'easy' || document.body.className == 'normal' || document.body.className == 'hard')) {
             div.remove()
             levelContainer.remove()
+            playAudio()
             addUsername(input.value)
             setTimer()
             shuffle()
@@ -34,6 +35,16 @@ function game() {
         }
         
     })
+}
+
+function playAudio() {
+    let audio = document.createElement('audio')
+    audio.setAttribute('id', 'audio')
+    audio.setAttribute('src', 'public/assets/epic.mp3')
+    document.body.appendChild(audio)
+    let audioHTML = document.getElementById('audio')
+    audioHTML.loop = true
+    audioHTML.play()
 }
 
 function chooseLevel() {
