@@ -14,6 +14,8 @@ let firstCard;
 let secondCard;
 let lockBoard = false
 let counter = 0
+let gameIsFinished = false
+
 let nav = document.getElementsByClassName('nav').item(0)
 
 function game() {
@@ -51,11 +53,15 @@ function setTimer() {
     let p = document.createElement('p')
     p.innerHTML = '<i class="fa-regular fa-clock"></i> '
     let span = document.createElement('span')
+    span.classList.add('timer')
     divUser.appendChild(p)
     p.appendChild(span)
     let sec = 1
     let min = 0
     setInterval(() => {
+        if (gameIsFinished) {
+            return;
+        }
         if (sec > 59) {
             min++
             sec = 0
@@ -147,10 +153,12 @@ function disableCards() {
     firstCard = null
     secondCard = null
     lockBoard = false
-    
+
     counter++
+    // If all cards where found == victory
     if (counter == cards.length / 2) {
         displayResult()
+        gameIsFinished = true
     }
 }
 
@@ -174,12 +182,26 @@ function displayResult() {
     let div = document.createElement('div')
     div.classList.add('result')
     let p = document.createElement('p')
-    p.innerText = 'You won' 
+    let button = document.createElement('button')
+    button.innerHTML = `<i class="fa-solid fa-rotate-right"></i> Restart`
+    button.classList.add('restart')
+    let timerContent = document.getElementsByClassName('timer').item(0).innerText
+    p.innerHTML = 'You won' + ` <i class="fa-solid fa-khanda"></i>` + ` in ${timerContent}`
     div.appendChild(p)
+    div.appendChild(button)
     document.body.insertAdjacentHTML('afterbegin', div.outerHTML)
+    
+    let divResult = document.getElementsByClassName('result').item(0)
     setTimeout(() => {
-        window.location.reload()
-    }, 5000);
+        divResult.classList.add('translate')
+    }, 1000)
+
+    let buttonRestart = document.getElementsByClassName('restart').item(0)
+    buttonRestart.addEventListener('click', restart)
+}
+
+function restart() {
+    window.location.reload()
 }
 
 game()

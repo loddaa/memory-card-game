@@ -9,6 +9,11 @@ body {
     background-size: cover;
 }
 
+button, 
+a {
+    cursor: pointer;
+}
+
 .container {
     padding: 20px;
     display: grid;
@@ -22,6 +27,10 @@ body {
     transition: 1s;
     margin: 0 auto;
 
+}
+
+.card-container:hover {
+    transform: scale(1.05);
 }
 
 .back-card {
@@ -49,20 +58,43 @@ img {
 }
 
 .result {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 20px;
-    background-color: black;
-    border-radius: 20px;
-    color: white;
-    width: 200px;
-    height: fit-content;
-    font-size: 50px;
-    z-index: 999;
-    margin: auto auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 20px;
+	background-color: hsla(0, 0%, 0%,.7);
+	border-radius: 20px;
+	color: white;
+	width: fit-content;
+	height: fit-content;
+	font-size: 50px;
+	z-index: 999;
+	margin: auto auto;
+    opacity: 0;
+    transform: translateY(300%);
+    transition: 2s;
+}
+
+.result p {
+	margin-bottom: 0;
+}
+
+.restart {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, .8);
+    color: black;
+    width: 50%;
+    border-radius: 7px;
+    border: none;
+}
+
+.translate {
+    transform: translateY(0);
+    opacity: 100%;
 }
 
 .nav {
@@ -89,6 +121,12 @@ img {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+}
+
+.set-username input {
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
 }
 
 .username {
