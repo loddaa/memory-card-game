@@ -7,10 +7,14 @@ let secondCard;
 let lockBoard = false
 let counter = 0
 let gameIsFinished = false
+let soundIsAllowed = false
 
 let nav = document.getElementsByClassName('nav').item(0)
 
+
+
 function game() {
+    menuSound()
     chooseLevel()
     
     let levelContainer = document.getElementsByClassName('level-container').item(0)
@@ -27,13 +31,50 @@ function game() {
         if (e.key == 'Enter' && input.value != '' && (document.body.className == 'easy' || document.body.className == 'normal' || document.body.className == 'hard')) {
             div.remove()
             levelContainer.remove()
-            playAudio()
+            document.getElementById('menu-sound').remove()
+            if (soundIsAllowed) {
+                playAudio()
+            }
             addUsername(input.value)
             setTimer()
             shuffle()
             generateCards()
         }
         
+    })
+}
+
+function menuSound() {
+    let audio = document.createElement('audio')
+    audio.setAttribute('id', 'menu-sound')
+    audio.setAttribute('src', 'public/assets/menu.mp3')
+    document.body.appendChild(audio)
+    let audioHTML = document.getElementById('menu-sound')
+    audioHTML.loop = true
+
+    let div = document.createElement('div')
+    div.classList.add('ask-user-sound')
+    div.innerHTML = `
+    <p>This game uses sound effects.</p>
+    <div class='allow-button'>
+    <button id='allow-sound'>Allow sound <i class="fa-solid fa-volume-high"></i></button>
+    <button id='block-sound'>Block sound <i class="fa-solid fa-volume-xmark"></i></button>
+    </div>
+    `
+    document.body.insertAdjacentHTML('afterbegin', div.outerHTML)
+    let buttonAllow = document.getElementById('allow-sound')
+    let buttonBlock = document.getElementById('block-sound')
+    let divHTML = document.getElementsByClassName('ask-user-sound').item(0)
+    document.addEventListener('click', function(e) {
+        
+        if (e.target == buttonAllow) {
+            audioHTML.play()
+            divHTML.remove()
+            soundIsAllowed = true
+        } else if (e.target == buttonBlock) {
+            divHTML.remove()
+            return
+        }
     })
 }
 
@@ -48,6 +89,12 @@ function playAudio() {
 }
 
 function chooseLevel() {
+    let audio = document.createElement('audio')
+    audio.setAttribute('id', 'sword')
+    audio.setAttribute('src', 'public/assets/sword.mp3')
+    document.body.appendChild(audio)
+    let audioHTML = document.getElementById('sword')
+
     let divLevelContainer = document.createElement('div')
     divLevelContainer.innerText = 'Choose a level'
     divLevelContainer.classList.add('level-container')
@@ -77,6 +124,13 @@ function chooseLevel() {
 
     for (let levelButton of levelButtons) {
         levelButton.addEventListener('click', function() {
+            
+            if (soundIsAllowed) {
+                audioHTML.pause();
+                audioHTML.currentTime = 0
+                audioHTML.play()
+            }
+
             // remove class active from all buttons in case user click on more than one button
             for (let button of levelButtons) {
                 button.classList.remove('active')
