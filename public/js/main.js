@@ -18,10 +18,10 @@ function game() {
     div.classList.add('set-username')
     let input = document.createElement('input')
     let p = document.createElement('p')
-    p.innerText = 'Add your username'
+    p.innerText = 'Add your username and tap Enter'
     input.setAttribute('placeholder', 'Username')
     div.append(p, input)
-    nav.appendChild(div)
+    levelContainer.appendChild(div)
 
     input.addEventListener('keypress', function(e) {
         if (e.key == 'Enter' && input.value != '') {
@@ -38,7 +38,10 @@ function game() {
 
 function chooseLevel() {
     let divLevelContainer = document.createElement('div')
+    divLevelContainer.innerText = 'Choose a level'
     divLevelContainer.classList.add('level-container')
+
+    let div = document.createElement('div')
 
     let buttonEasy = document.createElement('button')
     buttonEasy.classList.add('level')
@@ -55,7 +58,8 @@ function chooseLevel() {
     buttonHard.setAttribute('id', 'hard')
     buttonHard.innerText = 'Hard'
 
-    divLevelContainer.append(buttonEasy, buttonNormal, buttonHard)
+    div.append(buttonEasy, buttonNormal, buttonHard)
+    divLevelContainer.append(div)
     document.body.insertAdjacentHTML('afterbegin', divLevelContainer.outerHTML)
 
     let levelButtons = document.getElementsByClassName('level')
